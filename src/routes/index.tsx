@@ -1,10 +1,12 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCase } from "../context/constants";
-import Test from "../pages/Test";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const ThemeRoutes = () => {
   const [{ userInfo }, dispatch] = useStateProvider();
+
+  const navigate = useNavigate();
 
   const login = () => {
     dispatch({
@@ -15,18 +17,36 @@ const ThemeRoutes = () => {
         username: "admin",
       },
     });
-    console.log(userInfo);
+
+    navigate("/");
+  };
+
+  const logout = () => {
+    dispatch({
+      type: reducerCase.SET_USER_INFO,
+      userInfo: null,
+    });
   };
 
   return (
-    <BrowserRouter>
-      <button onClick={login}>Login</button>
-      <Link to="/test">Test</Link>
+    <>
+      {userInfo ? (
+        <button onClick={logout}>Logout</button>
+      ) : (
+        <button onClick={login}>Do Login</button>
+      )}
       <Routes>
-        <Route path="/" element={<h1>Hola como vas</h1>} />
-        <Route path="/test" element={<Test />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <h1>Hola</h1>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<h1>Login</h1>} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 
