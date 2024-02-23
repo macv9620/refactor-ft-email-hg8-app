@@ -13,9 +13,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   //TODO: If there is no login info, check the local storage and validate the token
 
-  if (!userInfo) {
-    return <Navigate to="/login" />;
-  }
+  // if (!userInfo) {
+  //   return <Navigate to="/login" />;
+  // }
   return children;
 };
 export default ProtectedRoute;

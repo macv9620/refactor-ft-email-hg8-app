@@ -2,6 +2,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCase } from "../context/constants";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Home from "../pages/Home";
 
 const ThemeRoutes = () => {
   const [{ userInfo }, dispatch] = useStateProvider();
@@ -29,24 +30,24 @@ const ThemeRoutes = () => {
   };
 
   return (
-    <>
-      {userInfo ? (
+    <div>
+      {/* {userInfo ? (
         <button onClick={logout}>Logout</button>
       ) : (
         <button onClick={login}>Do Login</button>
-      )}
+      )} */}
       <Routes>
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <h1>Hola</h1>
+              <Home />
             </ProtectedRoute>
           }
         />
         <Route path="/login" element={<h1>Login</h1>} />
       </Routes>
-    </>
+    </div>
   );
 };
 
