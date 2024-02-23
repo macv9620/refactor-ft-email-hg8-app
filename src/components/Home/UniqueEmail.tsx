@@ -1,17 +1,26 @@
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import EmailType from "../../types/EmailType";
 
-const UniqueEmail = () => {
+interface UniqueEmailProps {
+  email: EmailType;
+  handleEmailSelected: (id: string) => void;
+}
+
+const UniqueEmail: React.FC<UniqueEmailProps> = ({
+  email,
+  handleEmailSelected,
+}) => {
   return (
-    <div className="h-fit w-full">
+    <div className="h-fit w-full" onClick={() => handleEmailSelected(email.id)}>
       <Card className="py-2 px-2">
         <CardHeader className="justify-between">
           <div className="flex gap-5">
             <div className="flex flex-col gap-1 items-start justify-center">
               <h4 className="text-small font-semibold leading-none text-default-600">
-                {"Gabriel Suarez Baron"}
+                {email.sender}
               </h4>
               <h5 className="text-small tracking-tight text-default-400">
-                {"gasuarez2002@gmail.com"}
+                {`${email.sender}@gmail.com`}
               </h5>
             </div>
           </div>
@@ -24,20 +33,14 @@ const UniqueEmail = () => {
             whiteSpace: "nowrap",
           }}
         >
-          <p>
-            Frontend developer and UI/UX enthusiast. Join me on this coding
-            adventure! Frontend developer and UI/UX enthusiast. Join me on this
-            coding adventure! Frontend developer and UI/UX enthusiast. Join me
-            on this coding adventure! Frontend developer and UI/UX enthusiast.
-            Join me on this coding adventure! Frontend developer and UI/UX
-            enthusiast. Join me on this coding adventure!
-          </p>
+          <p className="font-semibold">{email.title}</p>
+          <p>{email.body}</p>
         </CardBody>
         <CardFooter className="gap-3">
           <div className="flex gap-1">
             <p className=" text-default-400 text-small">Enviado a las:</p>
             <p className="font-semibold text-default-400 text-small">
-              {"15:03"}
+              {email.date}
             </p>
           </div>
         </CardFooter>

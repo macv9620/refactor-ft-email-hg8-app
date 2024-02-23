@@ -1,9 +1,7 @@
-import UserType from "./UserType";
-
 type EmailType = {
   id: string;
-  receiver: UserType;
-  sender: UserType;
+  receiver: string;
+  sender: string;
   title: string;
   body: string;
   date: string;

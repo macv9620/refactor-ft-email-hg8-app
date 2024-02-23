@@ -18,24 +18,13 @@ const ThemeRoutes = () => {
         username: "admin",
       },
     });
-
     navigate("/");
   };
 
-  const logout = () => {
-    dispatch({
-      type: reducerCase.SET_USER_INFO,
-      userInfo: null,
-    });
-  };
+  if (!userInfo) navigate("/login");
 
   return (
     <div>
-      {/* {userInfo ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
-        <button onClick={login}>Do Login</button>
-      )} */}
       <Routes>
         <Route
           path="/"
