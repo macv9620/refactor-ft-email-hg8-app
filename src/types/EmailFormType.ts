@@ -1,5 +1,4 @@
-type EmailType = {
-  id: string;
+type EmailFormType = {
   receiver: string;
   sender: string;
   title: string;
@@ -7,4 +6,4 @@ type EmailType = {
   date: string;
 };
 
-export default EmailType;
+export default EmailFormType;
