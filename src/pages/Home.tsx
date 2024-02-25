@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-row justify-between p-3 align-middle text-center">
+      <div className="flex flex-row justify-between p-3 text-center">
         <div className="text-md text-blue-500 font-bold">
           <p className="text-center pl-9">App Messages</p>
         </div>
