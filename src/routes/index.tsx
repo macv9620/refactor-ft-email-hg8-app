@@ -1,6 +1,8 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCase } from "../context/constants";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const ThemeRoutes = () => {
@@ -44,7 +46,8 @@ const ThemeRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/login" element={<h1>Login</h1>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );
