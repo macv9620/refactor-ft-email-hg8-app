@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { useStateProvider } from "../context/StateContext";
-//import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -8,14 +8,15 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const [{ userInfo }] = useStateProvider();
-
-  console.log(userInfo);
+  const navigate = useNavigate();
 
   //TODO: If there is no login info, check the local storage and validate the token
 
-  // if (!userInfo) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!userInfo || localStorage.getItem("access_token") === null) {
+    navigate("/login");
+  }
+
   return children;
 };
+
 export default ProtectedRoute;

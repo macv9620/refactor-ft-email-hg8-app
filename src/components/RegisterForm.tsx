@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Link } from 'react-router-dom';
-import './RegisterForm.css';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./RegisterForm.css";
 
 interface RegisterFormData {
   name: string;
@@ -11,52 +12,55 @@ interface RegisterFormData {
 
 const RegisterForm: React.FC = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
-    name: '',
-    u_email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    u_email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState<string>('');
-  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [error, setError] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
-  
+
     const { confirmPassword, ...data } = formData; // Excluye confirmPassword de formData
     if (data.password !== confirmPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
-  
+
     try {
-      const response = await fetch('http://localhost:5000/api/register', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
-  
+
       if (!response.ok) {
         throw new Error("Error al registrar el usuario");
       }
 
       const responseData = await response.json();
       setSuccessMessage(responseData.message);
-  
-      // Limpiar el formulario después de un registro exitoso
+
       setFormData({
-        name: '',
-        u_email: '',
-        password: '',
-        confirmPassword: ''
+        name: "",
+        u_email: "",
+        password: "",
+        confirmPassword: "",
       });
-  
+      navigate("/login");
     } catch (error) {
       setError("Error al registrar el usuario");
     }
@@ -65,34 +69,71 @@ const RegisterForm: React.FC = () => {
   return (
     <div className="center-container">
       <form onSubmit={handleSubmit} className="register-form">
-        <div id='register-screen'>
+        <div id="register-screen">
           <div>
-            <h1 className="form-title">VelezReyes+ Mail</h1>
+            <h1 className="form-title text-lg font-bold">VelezReyes+ Mail</h1>
           </div>
           <div>
-            <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="form-input" />
+            <label htmlFor="name">Nombre:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="form-input"
+            />
           </div>
           <div>
             <label htmlFor="u_email">Email:</label>
-            <input type="email" id="u_email" name="u_email" value={formData.u_email} onChange={handleChange} className="form-input" />
+            <input
+              type="email"
+              id="u_email"
+              name="u_email"
+              value={formData.u_email}
+              onChange={handleChange}
+              className="form-input"
+            />
           </div>
           <div>
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="form-input" />
+            <label htmlFor="password">Contraseña:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="form-input"
+            />
           </div>
           <div>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="form-input" />
+            <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="form-input"
+            />
           </div>
           {error && <p className="error-message">{error}</p>}
-          {successMessage && <p className="success-message">{successMessage}</p>}
+          {successMessage && (
+            <p className="success-message">{successMessage}</p>
+          )}
           <div>
-            <button type="submit" className="submit-button">Register</button>
+            <button
+              type="submit"
+              className="w-full p-2 mt-2 rounded-md bg-blue-500 text-white"
+            >
+              Registrarse
+            </button>
           </div>
           <div className="register-link-container">
-            <p>Already registered?</p>
-            <Link to="/login" className="login-link">Log in</Link>
+            <p>Ya tienes una cuenta?</p>
+            <Link to="/login" className="login-link border-b border-blue-500">
+              Inicia Sesion
+            </Link>
           </div>
         </div>
       </form>

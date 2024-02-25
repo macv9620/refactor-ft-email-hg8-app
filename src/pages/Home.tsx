@@ -10,10 +10,13 @@ import { useState, useEffect } from "react";
 import ModalEmail from "../components/NewEmail/ModalEmail";
 import emailService from "../services/emailService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const Home = () => {
   const [{}, dispatch] = useStateProvider();
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
+
+  const navigate = useNavigate();
 
   const handleEmailSelected = (id: string) => {
     const email = emails.find((email) => email.id === id);
@@ -34,11 +37,13 @@ const Home = () => {
   }, []);
 
   const logout = () => {
+    localStorage.removeItem("access_token");
     toast("Sesión cerrada", { type: "success" });
     dispatch({
       type: reducerCase.SET_USER_INFO,
       userInfo: null,
     });
+    navigate("/login");
   };
 
   console.log(emailsArray);

@@ -1,7 +1,5 @@
 type UserType = {
-  id: string;
-  password: string;
-  username: string;
+  u_email: string;
 };
 
 export default UserType;
