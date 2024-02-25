@@ -17,6 +17,7 @@ const RegisterForm: React.FC = () => {
     confirmPassword: ''
   });
   const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -38,50 +39,64 @@ const RegisterForm: React.FC = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data) // Envía 'data' en lugar de 'formData'
+        body: JSON.stringify(data)
       });
   
       if (!response.ok) {
         throw new Error("Error al registrar el usuario");
       }
+
+      const responseData = await response.json();
+      setSuccessMessage(responseData.message);
   
-      // redirigir al usuario a la página de inicio de sesión              
-      // history.push('/login');
+      // Limpiar el formulario después de un registro exitoso
+      setFormData({
+        name: '',
+        u_email: '',
+        password: '',
+        confirmPassword: ''
+      });
+  
     } catch (error) {
       setError("Error al registrar el usuario");
-    } console.log(JSON.stringify(data))
+    }
   };
 
   return (
-<form onSubmit={handleSubmit} className="register-form">
-  <div id='register-screen'>
-    <div>
-      <h1 className="form-title">VelezReyes+ Mail</h1>
+    <div className="center-container">
+      <form onSubmit={handleSubmit} className="register-form">
+        <div id='register-screen'>
+          <div>
+            <h1 className="form-title">VelezReyes+ Mail</h1>
+          </div>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="form-input" />
+          </div>
+          <div>
+            <label htmlFor="u_email">Email:</label>
+            <input type="email" id="u_email" name="u_email" value={formData.u_email} onChange={handleChange} className="form-input" />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="form-input" />
+          </div>
+          <div>
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="form-input" />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
+          <div>
+            <button type="submit" className="submit-button">Register</button>
+          </div>
+          <div className="register-link-container">
+            <p>Already registered?</p>
+            <Link to="/login" className="login-link">Log in</Link>
+          </div>
+        </div>
+      </form>
     </div>
-    <div>
-      <label htmlFor="name">Name:</label>
-      <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="form-input" />
-    </div>
-    <div>
-      <label htmlFor="u_email">Email:</label>
-      <input type="u_email" id="u_email" name="u_email" value={formData.u_email} onChange={handleChange} className="form-input" />
-    </div>
-    <div>
-      <label htmlFor="password">Password:</label>
-      <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="form-input" />
-    </div>
-    <div>
-      <label htmlFor="confirmPassword">Confirm Password:</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="form-input" />
-    </div>
-    {error && <p className="error-message">{error}</p>}
-    <div>
-      <button type="submit" className="submit-button">Register</button>
-    </div>
-    <p>Already registered? <Link to="/login" className="login-link">Log in</Link></p>
-  </div>
-</form>
-
   );
 };
 
