@@ -43,7 +43,7 @@ export default function ModalEmail() {
           onPress={() => handleOpen()}
           className="py-2 px-4 bg-primary hover:bg-primary-dark text-white font-semibold shadow-2xl transition duration-300"
         >
-          Enviar Correo
+          Nuevo Correo
         </Button>
       </div>
       <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>

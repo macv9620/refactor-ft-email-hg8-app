@@ -6,8 +6,10 @@ import { useStateProvider } from "../context/StateContext";
 import { reducerCase } from "../context/constants";
 import emails from "../components/Home/Email.json";
 import EmailType from "../types/EmailType";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalEmail from "../components/NewEmail/ModalEmail";
+import emailService from "../services/emailService";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [{}, dispatch] = useStateProvider();
@@ -20,7 +22,19 @@ const Home = () => {
 
   const emailsArray: EmailType[] = emails;
 
+  useEffect(() => {
+    emailService
+      .getEmails()
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch(() => {
+        toast("No has iniciado sesion", { type: "error" });
+      });
+  }, []);
+
   const logout = () => {
+    toast("Sesión cerrada", { type: "success" });
     dispatch({
       type: reducerCase.SET_USER_INFO,
       userInfo: null,
@@ -31,7 +45,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-row justify-between p-3 text-center">
+      <div className="flex flex-row justify-between p-3 text-center mb-2">
         <div className="text-md text-blue-500 font-bold">
           <p className="text-center pl-9">App Messages</p>
         </div>
