@@ -1,69 +1,61 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
 .register-form {
-  max-width: 400px;
-  margin:auto;
+  max-width: 300px;
+  width: 100%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-  font-family: Inter, system-ui, Avenir, Arial, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.register-form h1 {
-  text-align: center;
-  font-size: 24px;
+.form-title {
   margin-bottom: 20px;
+  text-align: center;
 }
 
-.register-form input {
+.form-input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  text-align: center;
+  box-sizing: border-box;
 }
 
 .error-message {
   color: red;
-  margin-top: 4px;
+  margin-top: 10px;
 }
 
 .submit-button {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #346dbf;
-  border-radius: 4px;
-  background-color: #346dbf;
-  color: white;
-  font-size: 16px;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
+
 .submit-button:hover {
-  transform: scale(1.05);
-  background-color: #346dbf;
-  border-color: #346dbf;
+  background-color: #0056b3;
 }
 
-.submit-button:active {
-  transform: scale(0.95);
-  border-color: #ffffff;
+.register-link-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
 }
 
-a:hover {
-  color: #747bff;
-}
-
-.submit-button {
-  background-color: #346dbf;
+.login-link {
+  margin-left: 5px;
 }
