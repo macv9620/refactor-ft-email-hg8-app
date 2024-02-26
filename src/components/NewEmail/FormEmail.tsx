@@ -10,11 +10,9 @@ interface FormEmailProps {
 
 const FormEmail: React.FC<FormEmailProps> = ({ getEmail }) => {
   const [emailToSend, setEmailToSend] = useState<EmailFormType>({
-    receiver: "",
-    sender: "",
-    title: "",
+    recipient_email: "",
     body: "",
-    date: "",
+    subject: "",
   });
 
   const handleInputChange = (
@@ -35,16 +33,16 @@ const FormEmail: React.FC<FormEmailProps> = ({ getEmail }) => {
           type="email"
           label="Para"
           placeholder="Escribe el correo del destinatario"
-          name="receiver"
-          value={emailToSend.receiver}
+          name="recipient_email"
+          value={emailToSend.recipient_email}
           onChange={handleInputChange}
         />
         <Input
           type="text"
           label="Asunto"
           placeholder="Escribe el Asunto"
-          name="title"
-          value={emailToSend.title}
+          name="subject"
+          value={emailToSend.subject}
           onChange={handleInputChange}
         />
       </div>

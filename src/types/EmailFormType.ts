@@ -1,9 +1,8 @@
 type EmailFormType = {
-  receiver: string;
-  sender: string;
-  title: string;
-  body: string;
-  date: string;
+  recipient_email: "";
+  body: "";
+  subject: "";
+  date?: "";
 };
 
 export default EmailFormType;

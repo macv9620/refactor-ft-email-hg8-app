@@ -10,13 +10,13 @@ import {
 import FormEmail from "./FormEmail";
 import EmailFormType from "../../types/EmailFormType";
 import { useState } from "react";
+import emailService from "../../services/emailService";
+import { toast } from "react-toastify";
 
 export default function ModalEmail() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [emailToSend, setEmailToSend] = useState<Partial<EmailFormType> | null>(
-    null
-  );
+  const [emailToSend, setEmailToSend] = useState<EmailFormType | null>(null);
 
   const handleOpen = () => {
     onOpen();
@@ -27,13 +27,26 @@ export default function ModalEmail() {
   };
 
   const sendEmail = () => {
-    const date: string = new Date().toLocaleString();
-    const updatedEmailToSend: Partial<EmailFormType> = {
-      ...emailToSend,
-      date: date,
-    };
-    setEmailToSend(updatedEmailToSend);
-    console.log(updatedEmailToSend);
+    if (
+      emailToSend?.recipient_email === "" ||
+      emailToSend?.subject === "" ||
+      emailToSend?.body === ""
+    ) {
+      toast.error("Todos los campos son requeridos");
+      return;
+    }
+
+    if (emailToSend)
+      emailService
+        .sendEmail(emailToSend)
+        .then(() => {
+          toast.success("Correo enviado con exito");
+        })
+        .catch((err) => {
+          err.response.status === 404
+            ? toast.error("El destinatario no existe")
+            : toast.error("Error al enviar el correo");
+        });
   };
 
   return (
@@ -43,7 +56,7 @@ export default function ModalEmail() {
           onPress={() => handleOpen()}
           className="py-2 px-4 bg-primary hover:bg-primary-dark text-white font-semibold shadow-2xl transition duration-300"
         >
-          Enviar Correo
+          Nuevo Correo
         </Button>
       </div>
       <Modal size={"5xl"} isOpen={isOpen} onClose={onClose}>

@@ -1,37 +1,55 @@
-import { Avatar } from "@nextui-org/react";
+import { useState, useEffect } from "react";
 import ListEmail from "../components/Home/ListEmail";
 import ViewEmail from "../components/Home/ViewEmail";
+import { Avatar } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCase } from "../context/constants";
-import emails from "../components/Home/Email.json";
 import EmailType from "../types/EmailType";
-import { useState } from "react";
 import ModalEmail from "../components/NewEmail/ModalEmail";
+import emailService from "../services/emailService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const Home = () => {
   const [{}, dispatch] = useStateProvider();
+
+  const [emails, setEmails] = useState<EmailType[]>([]);
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
+
+  const navigate = useNavigate();
 
   const handleEmailSelected = (id: string) => {
     const email = emails.find((email) => email.id === id);
     if (email) setEmailSelected(email);
   };
 
-  const emailsArray: EmailType[] = emails;
+  useEffect(() => {
+    emailService
+      .getEmails()
+      .then((res) => {
+        setEmails(res.data);
+      })
+      .catch(() => {
+        toast("No has iniciado sesion", { type: "error" });
+        navigate("/login");
+      });
+  }, []);
 
   const logout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("email");
+    toast("Sesión cerrada", { type: "success" });
     dispatch({
       type: reducerCase.SET_USER_INFO,
       userInfo: null,
     });
+    navigate("/login");
   };
-
-  console.log(emailsArray);
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-row justify-between p-3 text-center">
+      <div className="flex flex-row justify-between p-3 text-center mb-2">
         <div className="text-md text-blue-500 font-bold">
           <p className="text-center pl-9">App Messages</p>
         </div>
@@ -43,10 +61,7 @@ const Home = () => {
         </div>
       </div>
       <div className="flex flex-row justify-around h-[90vh]">
-        <ListEmail
-          emails={emailsArray}
-          handleEmailSelected={handleEmailSelected}
-        />
+        <ListEmail emails={emails} handleEmailSelected={handleEmailSelected} />
         <ViewEmail emailSelected={emailSelected} />
       </div>
       <div className="absolute bottom-20 right-10 shadow-2xl">

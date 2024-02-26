@@ -17,10 +17,10 @@ const UniqueEmail: React.FC<UniqueEmailProps> = ({
           <div className="flex gap-5">
             <div className="flex flex-col gap-1 items-start justify-center">
               <h4 className="text-small font-semibold leading-none text-default-600">
-                {email.sender}
+                {email.sender.name}
               </h4>
               <h5 className="text-small tracking-tight text-default-400">
-                {`${email.sender}@gmail.com`}
+                {`${email.sender.u_email}`}
               </h5>
             </div>
           </div>
@@ -33,14 +33,14 @@ const UniqueEmail: React.FC<UniqueEmailProps> = ({
             whiteSpace: "nowrap",
           }}
         >
-          <p className="font-semibold">{email.title}</p>
+          <p className="font-semibold">{email.subject}</p>
           <p>{email.body}</p>
         </CardBody>
         <CardFooter className="gap-3">
-          <div className="flex gap-1">
-            <p className=" text-default-400 text-small">Enviado a las:</p>
+          <div className="flex flex-row gap-1">
+            <p className="text-default-400 text-small">Enviado a las:</p>
             <p className="font-semibold text-default-400 text-small">
-              {email.date}
+              {email.date ? email.date : "No disponible"}
             </p>
           </div>
         </CardFooter>
