@@ -1,10 +1,10 @@
-import EmailType from "../../types/EmailType";
+//import EmailType from "../../types/EmailType";
 import UniqueEmail from "./UniqueEmail";
 import React from "react";
 import { Spinner } from "@nextui-org/react";
 
 interface ListEmailProps {
-  emails: EmailType[];
+  emails: any[];
   handleEmailSelected: (id: string) => void;
 }
 
