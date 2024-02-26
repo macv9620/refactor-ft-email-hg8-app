@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import RegisterType from "../types/RegisterType";
+import signService from "../services/signService";
 import "./RegisterForm.css";
 
 interface RegisterFormData {
@@ -17,7 +19,8 @@ const RegisterForm: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState<string>("");
+
+  //const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
   const navigate = useNavigate();
@@ -32,38 +35,31 @@ const RegisterForm: React.FC = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    const { confirmPassword, ...data } = formData; // Excluye confirmPassword de formData
+    const { confirmPassword, ...data } = formData;
+
     if (data.password !== confirmPassword) {
-      setError("Las contraseñas no coinciden");
+      toast.error("Las contraseñas no coinciden");
       return;
     }
 
-    try {
-      const response = await fetch("http://localhost:5000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    signService
+      .register(data as RegisterType)
+      .then((res) => {
+        setSuccessMessage(res.data.message);
+        setFormData({
+          name: "",
+          u_email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        toast.success("Usuario registrado correctamente, ahora inicia sesión");
+        navigate("/login");
+      })
+      .catch((err) => {
+        err.response.status === 400
+          ? toast.error("Este usuario ya existe, intenta con otro email")
+          : toast.error("Error al registrar el usuario");
       });
-
-      if (!response.ok) {
-        throw new Error("Error al registrar el usuario");
-      }
-
-      const responseData = await response.json();
-      setSuccessMessage(responseData.message);
-
-      setFormData({
-        name: "",
-        u_email: "",
-        password: "",
-        confirmPassword: "",
-      });
-      navigate("/login");
-    } catch (error) {
-      setError("Error al registrar el usuario");
-    }
   };
 
   return (
@@ -117,7 +113,6 @@ const RegisterForm: React.FC = () => {
               className="form-input"
             />
           </div>
-          {error && <p className="error-message">{error}</p>}
           {successMessage && (
             <p className="success-message">{successMessage}</p>
           )}

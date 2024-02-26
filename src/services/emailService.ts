@@ -9,8 +9,15 @@ const getEmails = async () => {
   });
 };
 
+const sendEmail = async (email: any) => {
+  return axios.post(`${URL_API}/emails`, email, {
+    headers: authHeader(),
+  });
+};
+
 const emailService = {
   getEmails,
+  sendEmail,
 };
 
 export default emailService;

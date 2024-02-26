@@ -10,13 +10,13 @@ import {
 import FormEmail from "./FormEmail";
 import EmailFormType from "../../types/EmailFormType";
 import { useState } from "react";
+import emailService from "../../services/emailService";
+import { toast } from "react-toastify";
 
 export default function ModalEmail() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [emailToSend, setEmailToSend] = useState<Partial<EmailFormType> | null>(
-    null
-  );
+  const [emailToSend, setEmailToSend] = useState<any | null>(null);
 
   const handleOpen = () => {
     onOpen();
@@ -27,13 +27,21 @@ export default function ModalEmail() {
   };
 
   const sendEmail = () => {
-    const date: string = new Date().toLocaleString();
-    const updatedEmailToSend: Partial<EmailFormType> = {
-      ...emailToSend,
-      date: date,
-    };
-    setEmailToSend(updatedEmailToSend);
-    console.log(updatedEmailToSend);
+    emailService
+      .sendEmail(emailToSend)
+      .then(() => {
+        toast.success("Correo enviado con exito");
+      })
+      .catch(() => {
+        toast.error("El destinatario no existe");
+      });
+    // const date: string = new Date().toLocaleString();
+    // const updatedEmailToSend: Partial<EmailFormType> = {
+    //   ...emailToSend,
+    //   date: date,
+    // };
+    // setEmailToSend(updatedEmailToSend);
+    // console.log(updatedEmailToSend);
   };
 
   return (
