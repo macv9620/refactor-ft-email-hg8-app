@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 export default function ModalEmail() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [emailToSend, setEmailToSend] = useState<any | null>(null);
+  const [emailToSend, setEmailToSend] = useState<EmailFormType | null>(null);
 
   const handleOpen = () => {
     onOpen();
@@ -27,21 +27,26 @@ export default function ModalEmail() {
   };
 
   const sendEmail = () => {
-    emailService
-      .sendEmail(emailToSend)
-      .then(() => {
-        toast.success("Correo enviado con exito");
-      })
-      .catch(() => {
-        toast.error("El destinatario no existe");
-      });
-    // const date: string = new Date().toLocaleString();
-    // const updatedEmailToSend: Partial<EmailFormType> = {
-    //   ...emailToSend,
-    //   date: date,
-    // };
-    // setEmailToSend(updatedEmailToSend);
-    // console.log(updatedEmailToSend);
+    if (
+      emailToSend?.recipient_email === "" ||
+      emailToSend?.subject === "" ||
+      emailToSend?.body === ""
+    ) {
+      toast.error("Todos los campos son requeridos");
+      return;
+    }
+
+    if (emailToSend)
+      emailService
+        .sendEmail(emailToSend)
+        .then(() => {
+          toast.success("Correo enviado con exito");
+        })
+        .catch((err) => {
+          err.response.status === 404
+            ? toast.error("El destinatario no existe")
+            : toast.error("Error al enviar el correo");
+        });
   };
 
   return (

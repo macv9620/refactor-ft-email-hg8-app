@@ -9,14 +9,7 @@ interface FormEmailProps {
 }
 
 const FormEmail: React.FC<FormEmailProps> = ({ getEmail }) => {
-  // const [emailToSend, setEmailToSend] = useState<EmailFormType>({
-  //   receiver: "",
-  //   sender: "",
-  //   title: "",
-  //   body: "",
-  //   date: "",
-  // });
-  const [emailToSend, setEmailToSend] = useState<any>({
+  const [emailToSend, setEmailToSend] = useState<EmailFormType>({
     recipient_email: "",
     body: "",
     subject: "",

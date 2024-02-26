@@ -1,5 +1,6 @@
 import axios from "axios";
 import authHeader from "./authService";
+import EmailFormType from "../types/EmailFormType";
 
 const URL_API = "http://127.0.0.1:5000/api";
 
@@ -9,7 +10,7 @@ const getEmails = async () => {
   });
 };
 
-const sendEmail = async (email: any) => {
+const sendEmail = async (email: EmailFormType) => {
   return axios.post(`${URL_API}/emails`, email, {
     headers: authHeader(),
   });
