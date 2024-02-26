@@ -1,8 +1,7 @@
 import axios from "axios";
 import RegisterType from "../types/RegisterType";
 
-//const API_URL = import.meta.env.VITE_BACKEND_URL;
-const API_URL = "http://127.0.0.1:5000/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 type LoginType = {
   u_email: string;

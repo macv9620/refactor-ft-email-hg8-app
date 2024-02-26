@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./authService";
 import EmailFormType from "../types/EmailFormType";
 
-const URL_API = "http://127.0.0.1:5000/api";
+const URL_API = import.meta.env.VITE_BACKEND_URL;
 
 const getEmails = async () => {
   return axios.get(`${URL_API}/emails`, {
