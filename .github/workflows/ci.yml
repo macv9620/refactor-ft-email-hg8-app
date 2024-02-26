@@ -42,10 +42,10 @@ jobs:
             type=semver,pattern={{version}}
             type=sha
 
-      - name: Set up environment variables
-        run: echo "VITE_BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
+      - name: Set Vite environment variables
+        run: echo "VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }}" >> .env
         env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
