@@ -20,7 +20,6 @@ const RegisterForm: React.FC = () => {
     confirmPassword: "",
   });
 
-  //const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
   const navigate = useNavigate();

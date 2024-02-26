@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./LoginForm.css";
 import { useStateProvider } from "../context/StateContext";
+import { toast } from "react-toastify";
+import signService from "../services/signService";
+import "./LoginForm.css";
 
 interface LoginFormData {
   u_email: string;
@@ -16,37 +18,29 @@ const LoginForm = () => {
 
   const [{}, dispatch] = useStateProvider();
 
-  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    signService
+      .login(formData)
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem(
+          "access_token",
+          JSON.stringify(res.data.access_token)
+        );
+        localStorage.setItem("email", JSON.stringify(res.data.u_email));
+        dispatch({
+          type: "SET_USER_INFO",
+          userInfo: res.data.u_email,
+        });
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Error al iniciar sesión");
       });
-
-      if (!response.ok) {
-        throw new Error("Error al iniciar sesión");
-      }
-      const data = await response.json();
-      localStorage.setItem("access_token", JSON.stringify(data.access_token));
-      localStorage.setItem("email", JSON.stringify(data.u_email));
-
-      dispatch({
-        type: "SET_USER_INFO",
-        userInfo: data.u_email,
-      });
-
-      navigate("/");
-    } catch (error) {
-      setError("Error al iniciar sesión");
-    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +78,6 @@ const LoginForm = () => {
             onChange={handleChange}
           />
         </div>
-        {error && <p className="error-message">{error}</p>}
         <button
           type="submit"
           className="w-full p-2 mt-2 rounded-md bg-blue-500 text-white"
