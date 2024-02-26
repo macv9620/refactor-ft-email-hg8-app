@@ -1,21 +1,21 @@
-import { Avatar } from "@nextui-org/react";
+import { useState, useEffect } from "react";
 import ListEmail from "../components/Home/ListEmail";
 import ViewEmail from "../components/Home/ViewEmail";
+import { Avatar } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCase } from "../context/constants";
 import EmailType from "../types/EmailType";
-import { useState, useEffect } from "react";
 import ModalEmail from "../components/NewEmail/ModalEmail";
 import emailService from "../services/emailService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import signService from "../services/signService";
 
 const Home = () => {
   const [{}, dispatch] = useStateProvider();
+
+  const [emails, setEmails] = useState<EmailType[]>([]);
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
-  const [emails, setEmails] = useState<any[]>([]);
 
   const navigate = useNavigate();
 
@@ -29,10 +29,10 @@ const Home = () => {
       .getEmails()
       .then((res) => {
         setEmails(res.data);
-        console.log(res.data);
       })
       .catch(() => {
         toast("No has iniciado sesion", { type: "error" });
+        navigate("/login");
       });
   }, []);
 

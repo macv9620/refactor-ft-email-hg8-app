@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
-//import EmailType from "../../types/EmailType";
+import EmailType from "../../types/EmailType";
 
 interface UniqueEmailProps {
-  email: any;
+  email: EmailType;
   handleEmailSelected: (id: string) => void;
 }
 
@@ -10,7 +10,6 @@ const UniqueEmail: React.FC<UniqueEmailProps> = ({
   email,
   handleEmailSelected,
 }) => {
-  const fechaActual = new Date();
   return (
     <div className="h-fit w-full" onClick={() => handleEmailSelected(email.id)}>
       <Card className="py-2 px-2">
@@ -41,7 +40,7 @@ const UniqueEmail: React.FC<UniqueEmailProps> = ({
           <div className="flex flex-row gap-1">
             <p className="text-default-400 text-small">Enviado a las:</p>
             <p className="font-semibold text-default-400 text-small">
-              {fechaActual.toLocaleTimeString()}
+              {email.date ? email.date : "No disponible"}
             </p>
           </div>
         </CardFooter>

@@ -1,8 +1,8 @@
-//import EmailType from "../../types/EmailType";
+import EmailType from "../../types/EmailType";
 import { Spinner } from "@nextui-org/react";
 
 interface ViewEmailProps {
-  emailSelected?: any | null;
+  emailSelected?: EmailType | null;
 }
 
 const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
@@ -38,8 +38,9 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
             <p>
               Para: <span className="text-blue-500">{email}</span>
             </p>
-            {/* <p className="text-sm">{emailSelected?.date}</p> */}
-            <p className="text-sm">{""}</p>
+            <p className="text-sm">
+              {emailSelected.date ? emailSelected.date : "No disponible"}
+            </p>
           </div>
         </div>
         <div className="h-screen overflow-y-auto">{emailSelected?.body}</div>
