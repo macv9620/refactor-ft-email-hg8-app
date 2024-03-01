@@ -13,6 +13,7 @@ const FormEmail: React.FC<FormEmailProps> = ({ getEmail }) => {
     recipient_email: "",
     body: "",
     subject: "",
+    timestamp: "",
   });
 
   const handleInputChange = (

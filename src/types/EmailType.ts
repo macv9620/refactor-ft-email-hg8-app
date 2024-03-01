@@ -1,11 +1,10 @@
 type EmailType = {
   id: string;
   body: string;
-  recipient_id: string;
   sender: { name: string; u_email: string };
-  sender_id: string;
+  recipient: { name: string; u_email: string };
   subject: string;
-  date?: string;
+  timestamp: string;
 };
 
 export default EmailType;

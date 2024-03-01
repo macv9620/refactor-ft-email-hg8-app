@@ -36,7 +36,8 @@ export default function ModalEmail() {
       return;
     }
 
-    if (emailToSend)
+    if (emailToSend) {
+      emailToSend.timestamp = new Date().toISOString();
       emailService
         .sendEmail(emailToSend)
         .then(() => {
@@ -47,6 +48,7 @@ export default function ModalEmail() {
             ? toast.error("El destinatario no existe")
             : toast.error("Error al enviar el correo");
         });
+    }
   };
 
   return (

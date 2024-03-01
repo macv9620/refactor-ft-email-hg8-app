@@ -28,7 +28,14 @@ const Home = () => {
     emailService
       .getEmails()
       .then((res) => {
-        setEmails(res.data);
+        const sortedEmails = res.data.sort(
+          (a: { timestamp: string }, b: { timestamp: string }) => {
+            return (
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+            );
+          }
+        );
+        setEmails(sortedEmails);
       })
       .catch(() => {
         toast("No has iniciado sesion", { type: "error" });

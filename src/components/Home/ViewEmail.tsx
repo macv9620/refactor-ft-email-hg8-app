@@ -36,10 +36,15 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
           </p>
           <div className="flex flex-row justify-between mb-4">
             <p>
-              Para: <span className="text-blue-500">{email}</span>
+              Para:{" "}
+              <span className="text-blue-500">
+                {emailSelected.recipient.name}
+              </span>
             </p>
             <p className="text-sm">
-              {emailSelected.date ? emailSelected.date : "No disponible"}
+              {emailSelected.timestamp
+                ? emailSelected.timestamp
+                : "No disponible"}
             </p>
           </div>
         </div>

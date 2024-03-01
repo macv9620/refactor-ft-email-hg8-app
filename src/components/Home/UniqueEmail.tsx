@@ -40,7 +40,7 @@ const UniqueEmail: React.FC<UniqueEmailProps> = ({
           <div className="flex flex-row gap-1">
             <p className="text-default-400 text-small">Enviado a las:</p>
             <p className="font-semibold text-default-400 text-small">
-              {email.date ? email.date : "No disponible"}
+              {email.timestamp ? email.timestamp : "No disponible"}
             </p>
           </div>
         </CardFooter>
