@@ -16,6 +16,8 @@ const Home = () => {
 
   const [emails, setEmails] = useState<EmailType[]>([]);
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
+  const [userName, setUserName] = useState<string>("");
+  const [userMail, setUserMail] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ const Home = () => {
     emailService
       .getEmails()
       .then((res) => {
+        console.log(res);
         const sortedEmails = res.data.sort(
           (a: { timestamp: string }, b: { timestamp: string }) => {
             return (
@@ -41,6 +44,24 @@ const Home = () => {
         toast("No has iniciado sesion", { type: "error" });
         navigate("/login");
       });
+
+    const userNameFromLocal = localStorage
+      .getItem("userName")
+      ?.toString()
+      .replace('"', "")
+      .replace('"', "");
+    const userMailFromLocal = localStorage
+      .getItem("email")
+      ?.toString()
+      .replace('"', "")
+      .replace('"', "");
+
+    if (userNameFromLocal && userMailFromLocal) {
+      setUserName(userNameFromLocal);
+      setUserMail(userMailFromLocal);
+      console.log("User name from local");
+      console.log(userNameFromLocal);
+    }
   }, []);
 
   const logout = () => {
@@ -60,8 +81,20 @@ const Home = () => {
         <div className="text-md text-blue-500 font-bold">
           <p className="text-center pl-9">App Messages</p>
         </div>
+
+        <div className="text-md font-bold">
+          <p className="text-center pl-9">Welcome: {userName}</p>
+        </div>
+        <div className="text-md font-bold">
+          <p className="text-center pl-9">{userMail}</p>
+        </div>
         <div className="flex flex-row gap-3 pl-2 h-[30px]">
-          <Avatar />
+          <Avatar
+            src={
+              "https://placehold.co/155x232/black/white?text=" +
+              userName[0]?.toLocaleUpperCase()
+            }
+          />
           <Button color="primary" variant="bordered" onClick={logout}>
             Cerrar Sesión
           </Button>

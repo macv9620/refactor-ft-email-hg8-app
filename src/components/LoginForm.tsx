@@ -31,6 +31,7 @@ const LoginForm = () => {
           "access_token",
           JSON.stringify(res.data.access_token)
         );
+        localStorage.setItem("userName", JSON.stringify(res.data.name))
         localStorage.setItem("email", JSON.stringify(res.data.u_email));
         dispatch({
           type: "SET_USER_INFO",

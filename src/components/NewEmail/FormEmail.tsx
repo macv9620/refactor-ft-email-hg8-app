@@ -6,9 +6,10 @@ import EmailFormType from "../../types/EmailFormType";
 
 interface FormEmailProps {
   getEmail: (emailToSend: EmailFormType) => void;
+  setAllowToSendMail: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const FormEmail: React.FC<FormEmailProps> = ({ getEmail }) => {
+const FormEmail: React.FC<FormEmailProps> = ({ getEmail, setAllowToSendMail }) => {
   const [emailToSend, setEmailToSend] = useState<EmailFormType>({
     recipient_email: "",
     body: "",
@@ -20,11 +21,14 @@ const FormEmail: React.FC<FormEmailProps> = ({ getEmail }) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setEmailToSend({
-      ...emailToSend,
-      [name]: value,
-    });
-    getEmail(emailToSend);
+    const updatedEmailToSend = { ...emailToSend, [name]: value };
+    setEmailToSend(updatedEmailToSend);
+    getEmail(updatedEmailToSend);
+    const notAllowToSendMessage =
+      updatedEmailToSend.body === "" ||
+      updatedEmailToSend.recipient_email === "" ||
+      updatedEmailToSend.subject === "";
+    setAllowToSendMail(!notAllowToSendMessage);
   };
 
   return (

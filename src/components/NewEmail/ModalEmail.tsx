@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 export default function ModalEmail() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [allowToSendMail, setAllowToSendMail] = useState<boolean>(false)
 
   const [emailToSend, setEmailToSend] = useState<EmailFormType | null>(null);
 
@@ -28,13 +29,24 @@ export default function ModalEmail() {
 
   const sendEmail = () => {
     if (
-      emailToSend?.recipient_email === "" ||
-      emailToSend?.subject === "" ||
-      emailToSend?.body === ""
+      emailToSend === null ||
+      emailToSend.recipient_email === "" ||
+      emailToSend.subject === "" ||
+      emailToSend.body === ""
+
     ) {
       toast.error("Todos los campos son requeridos");
       return;
     }
+  
+    // Email format validation
+    const emailFormat = /\S+@\S+\.\S+/;
+    if (!emailFormat.test(emailToSend.recipient_email)) {
+      toast.error("El formato del correo electrónico es inválido");
+      return;
+    }
+
+
 
     if (emailToSend) {
       emailToSend.timestamp = new Date().toISOString();
@@ -42,6 +54,7 @@ export default function ModalEmail() {
         .sendEmail(emailToSend)
         .then(() => {
           toast.success("Correo enviado con exito");
+          onClose()
         })
         .catch((err) => {
           err.response.status === 404
@@ -55,7 +68,10 @@ export default function ModalEmail() {
     <>
       <div className="flex flex-wrap gap-3">
         <Button
-          onPress={() => handleOpen()}
+          onPress={() => {
+            setAllowToSendMail(false)
+            handleOpen()
+          }}
           className="py-2 px-4 bg-primary hover:bg-primary-dark text-white font-semibold shadow-2xl transition duration-300"
         >
           Nuevo Correo
@@ -69,13 +85,19 @@ export default function ModalEmail() {
                 Enviar un correo
               </ModalHeader>
               <ModalBody>
-                <FormEmail getEmail={getEmail} />
+                <FormEmail getEmail={getEmail} setAllowToSendMail={setAllowToSendMail} />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Descartar
                 </Button>
-                <Button color="primary" onPress={onClose} onClick={sendEmail}>
+                <Button
+                  isDisabled={!allowToSendMail}
+                  color="primary"
+                  onClick={() => {
+                    sendEmail()
+                  }}
+                >
                   Enviar
                 </Button>
               </ModalFooter>
