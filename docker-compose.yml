@@ -1,0 +1,7 @@
+services:
+  mail_ts_app_hg8:
+    container_name: mail_ts_app_hg8
+    image: mail_app_hg8:1.0.0
+    build: .
+    ports:
+      - 80:80
