@@ -6,10 +6,19 @@ interface UniqueEmailProps {
   handleEmailSelected: (id: string) => void;
 }
 
+
 const UniqueEmail: React.FC<UniqueEmailProps> = ({
   email,
   handleEmailSelected,
 }) => {
+
+
+  const formatTimeStamp = (date: string) => {
+    const dividedTimeStamp = date.split("T")
+    const time = dividedTimeStamp[1].slice(0,8)
+    return dividedTimeStamp[0] + " " + time
+  }
+
   return (
     <div className="h-fit w-full" onClick={() => handleEmailSelected(email.id)}>
       <Card className="py-2 px-2">
@@ -40,7 +49,7 @@ const UniqueEmail: React.FC<UniqueEmailProps> = ({
           <div className="flex flex-row gap-1">
             <p className="text-default-400 text-small">Enviado a las:</p>
             <p className="font-semibold text-default-400 text-small">
-              {email.timestamp ? email.timestamp : "No disponible"}
+              {email.timestamp ? formatTimeStamp(email.timestamp) : "No disponible"}
             </p>
           </div>
         </CardFooter>
