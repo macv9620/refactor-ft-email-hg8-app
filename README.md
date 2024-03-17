@@ -8,3 +8,5 @@
 4. Create a `<docker-compose>` file to facilitate **application initialization** among developers collaborating on the project.
 5. Show **user information** in the Home component.
 6. Improve **user experience** in managing the form to send emails, validating email format and preventing the email writing window from closing when errors occur.
+
+The solution proposal for each of the previous points will be sent to the HG-8 via **pull request**.
