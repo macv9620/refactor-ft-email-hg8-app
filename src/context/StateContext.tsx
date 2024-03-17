@@ -1,29 +1,47 @@
-import { createContext, useReducer, useContext, ReactNode, Reducer, Dispatch } from "react";
+import React, { createContext, useReducer, useContext, ReactNode } from "react";
+import { Action, State } from "./models/state.models";
+import { initialState } from "./StateReducer";
 
-type ReducerType<S, A> = Reducer<S, A>;
-type InitialStateType<S> = S;
-type ChildrenType = ReactNode;
-
-type StateContextType<S, A> = {
-  state: S;
-  dispatch: Dispatch<A>;
+type ContextType = {
+  state: State;
+  dispatch: React.Dispatch<Action>;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const StateContext = createContext({} as StateContextType<any, any>);
 
-export const StateProvider = <S, A>({ initialState, reducer, children }: {
-  initialState: InitialStateType<S>;
-  reducer: ReducerType<InitialStateType<S>, A>;
-  children: ChildrenType;
+const initialContext: ContextType = {
+  state: initialState,
+  dispatch: () => {},
+};
+
+export const StateContext = createContext<ContextType>(initialContext);
+
+type StateProviderProps = {
+  initialState: State;
+  reducer: React.Reducer<State, Action>;
+  children: ReactNode;
+};
+
+export const StateProvider: React.FC<StateProviderProps> = ({
+  initialState,
+  reducer,
+  children,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const contextValue = { state, dispatch };
+
   return (
-    <StateContext.Provider value={{ state, dispatch }}>
+    <StateContext.Provider value={contextValue}>
       {children}
     </StateContext.Provider>
   );
 };
 
+
 // eslint-disable-next-line react-refresh/only-export-components
-export const useStateProvider = <S, A>() => useContext(StateContext) as StateContextType<S, A>;
+export const useStateProvider = () => {
+  const context = useContext(StateContext);
+  if (!context) {
+    throw new Error("useStateProvider must be used within a StateProvider");
+  }
+  return context;
+};
