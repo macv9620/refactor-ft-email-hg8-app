@@ -11,6 +11,12 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
     email = email.replace(/"/g, "");
   }
 
+  const formatTimeStamp = (date: string) => {
+    const dividedTimeStamp = date.split("T")
+    const time = dividedTimeStamp[1].slice(0,8)
+    return dividedTimeStamp[0] + " " + time
+  }
+
   if (!emailSelected)
     return (
       <div className="bg-gray-50 rounded-lg w-[65%] shadow-lg flex flex-col overflow-hidden mb-6 align-middle justify-center">
@@ -43,7 +49,7 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
             </p>
             <p className="text-sm">
               {emailSelected.timestamp
-                ? emailSelected.timestamp
+                ? formatTimeStamp(emailSelected.timestamp)
                 : "No disponible"}
             </p>
           </div>
