@@ -1,12 +1,12 @@
 
-import LoginForm from "../components/LoginForm"; // Importa el componente LoginForm
+import LoginForm from "../components/LoginForm";
 
 const LoginFormPage = () => {
   return (
     <div>
-      <LoginForm /> {/* Utiliza el componente LoginForm */}
+      <LoginForm />
     </div>
   );
 };
 
-export default LoginFormPage; // Exporta el componente LoginFormPage
+export default LoginFormPage; 

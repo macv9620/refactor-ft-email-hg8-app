@@ -16,7 +16,7 @@ const LoginForm = () => {
     password: "",
   });
 
-  const [{}, dispatch] = useStateProvider();
+  const { dispatch } = useStateProvider();
 
   const navigate = useNavigate();
 

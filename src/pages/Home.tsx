@@ -11,7 +11,7 @@ import emailService from "../services/emailService";
 import EmailType from "../types/EmailType";
 
 const Home = () => {
-  const [, dispatch] = useStateProvider();
+  const {dispatch} = useStateProvider();
   const [emails, setEmails] = useState<EmailType[]>([]);
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
   const [userName, setUserName] = useState<string>("");
@@ -62,7 +62,7 @@ const Home = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("email");
     toast("Sesión cerrada", { type: "success" });
-    dispatch({ type: reducerCase.SET_USER_INFO, userInfo: null });
+    dispatch({ type: reducerCase.SET_USER_INFO, userInfo: "" });
     navigate("/login");
   };
 

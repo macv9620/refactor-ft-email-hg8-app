@@ -7,12 +7,10 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const [{ userInfo }] = useStateProvider();
+  const {state} = useStateProvider();
   const navigate = useNavigate();
 
-  //TODO: If there is no login info, check the local storage and validate the token
-
-  if (!userInfo || localStorage.getItem("access_token") === null) {
+  if (!state.userInfo || localStorage.getItem("access_token") === null) {
     navigate("/login");
   }
 
