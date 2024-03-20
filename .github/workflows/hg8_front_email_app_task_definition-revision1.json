@@ -1,0 +1,72 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:637423626700:task-definition/hg8_front_email_app_task_definition:1",
+    "containerDefinitions": [
+        {
+            "name": "hg8_front_email_app_container",
+            "image": "637423626700.dkr.ecr.us-east-1.amazonaws.com/home9/hg8_front_email_app_repository",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "hg8_front_email_app_container-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "systemControls": []
+        }
+    ],
+    "family": "hg8_front_email_app_task_definition",
+    "taskRoleArn": "arn:aws:iam::637423626700:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::637423626700:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-03-18T00:14:08.312Z",
+    "registeredBy": "arn:aws:iam::637423626700:user/mateo_vasco",
+    "tags": [
+        {
+            "key": "home_group_9",
+            "value": "front_email_hg8_app"
+        }
+    ]
+}
