@@ -50,13 +50,13 @@ describe('UniqueEmail', () => {
                 name: '',
                 u_email: ''
             },
-            id: '1' // Update the 'id' property to be of type 'string'
+            id: '1' 
         };
         const { container } = render(<UniqueEmail email={emailWithRecipient} handleEmailSelected={handleEmailSelected} />);
         const emailContainer = container.querySelector('.h-fit.w-full');
         if (emailContainer) {
             fireEvent.click(emailContainer);
-            expect(handleEmailSelected).toHaveBeenCalledWith('1'); // Update the argument to be of type 'string'
+            expect(handleEmailSelected).toHaveBeenCalledWith('1'); 
         } else {
             throw new Error('Email container not found');
         }

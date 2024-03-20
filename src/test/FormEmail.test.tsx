@@ -4,8 +4,8 @@ import { describe, expect, test, vi } from 'vitest';
 import FormEmail from '../components/NewEmail/FormEmail';
 
 describe('FormEmail', () => {
-test('should update emailToSend state when input values change', () => {
-    render(<FormEmail getEmail={() => {}} setAllowToSendMail={() => {}} />);
+  test('should update emailToSend state when input values change', () => {
+    render(<FormEmail getEmail={() => { }} setAllowToSendMail={() => { }} />);
 
     const recipientEmailInput = screen.getByLabelText('Para') as HTMLInputElement;
     const subjectInput = screen.getByLabelText('Asunto') as HTMLInputElement;
@@ -18,7 +18,7 @@ test('should update emailToSend state when input values change', () => {
     expect(recipientEmailInput.value).toBe('test@example.com');
     expect(subjectInput.value).toBe('Test Subject');
     expect(bodyTextarea.value).toBe('Test Body');
-});
+  });
 
   test('should call getEmail and setAllowToSendMail when input values change', () => {
     const getEmailMock = vi.fn();

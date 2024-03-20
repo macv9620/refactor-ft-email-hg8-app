@@ -39,10 +39,9 @@ describe('Home component', () => {
   });
 
   test('should display user name and email from local storage', async () => {
-    // Configura los valores en el almacenamiento local
     global.localStorage.setItem('userName', 'John Doe');
     global.localStorage.setItem('email', 'john.doe@example.com');
-  
+
     render(<Home />);
     const welcomeElement = await screen.findByText('Welcome: John Doe');
     const userEmailElement = await screen.findByText('john.doe@example.com');

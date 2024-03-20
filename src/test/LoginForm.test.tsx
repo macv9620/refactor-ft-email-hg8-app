@@ -12,7 +12,6 @@ describe('LoginForm', () => {
             </Router>
         );
 
-        // Assert that the form elements are rendered correctly
         expect(screen.getByLabelText('Correo electrónico:')).toBeInTheDocument();
         expect(screen.getByLabelText('Contraseña:')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Ingresar' })).toBeInTheDocument();
@@ -25,12 +24,9 @@ describe('LoginForm', () => {
                 <LoginForm />
             </Router>
         );
-
-        // Simulate user input
         fireEvent.change(screen.getByLabelText('Correo electrónico:'), { target: { value: 'test@example.com' } });
         fireEvent.change(screen.getByLabelText('Contraseña:'), { target: { value: 'password123' } });
 
-        // Assert that the form data is updated correctly
         expect(screen.getByLabelText('Correo electrónico:')).toHaveValue('test@example.com');
         expect(screen.getByLabelText('Contraseña:')).toHaveValue('password123');
     });
@@ -42,11 +38,8 @@ describe('LoginForm', () => {
             </Router>
         );
 
-        // Simulate user input
         fireEvent.change(screen.getByLabelText('Correo electrónico:'), { target: { value: 'test@example.com' } });
         fireEvent.change(screen.getByLabelText('Contraseña:'), { target: { value: 'password123' } });
-
-        // Simulate form submission
         fireEvent.click(screen.getByRole('button', { name: 'Ingresar' }));
 
     });

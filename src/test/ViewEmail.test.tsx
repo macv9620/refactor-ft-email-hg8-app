@@ -19,7 +19,7 @@ describe('ViewEmail', () => {
             id: '1',
             subject: 'Test Subject',
             sender: { name: '', u_email: 'test@example.com' },
-            recipient: { name: 'John Doe', u_email: '' }, // Add the "u_email" property
+            recipient: { name: 'John Doe', u_email: '' }, 
             timestamp: '2022-01-01T12:00:00Z',
             body: 'Test email body',
         };
