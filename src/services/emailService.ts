@@ -16,9 +16,16 @@ const sendEmail = async (email: EmailFormType) => {
   });
 };
 
+const deleteInboxEmail = async (emailId: string) => {
+  return axios.patch(`${URL_API}/emails/${emailId}`, null, {
+    headers: authHeader(),
+  });
+};
+
 const emailService = {
   getEmails,
   sendEmail,
+  deleteInboxEmail
 };
 
 export default emailService;

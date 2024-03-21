@@ -16,6 +16,7 @@ const Home = () => {
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
   const [userName, setUserName] = useState<string>("");
   const [userMail, setUserMail] = useState<string>("");
+  const [updateMessages, setUpdateMessages] = useState<boolean>(false)
   const navigate = useNavigate();
 
   const handleEmailSelected = (id: string) => {
@@ -27,12 +28,15 @@ const Home = () => {
     const fetchEmails = async () => {
       try {
         const res = await emailService.getEmails();
+        console.log(res)
+        
         const sortedEmails = res.data.sort(
           (a: { timestamp: string }, b: { timestamp: string }) =>
             new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         );
         setEmails(sortedEmails);
       } catch (error) {
+        console.log(error)
         toast("No has iniciado sesion", { type: "error" });
         navigate("/login");
       }
@@ -56,7 +60,7 @@ const Home = () => {
 
     fetchEmails();
     getUserInfoFromLocalStorage();
-  }, [navigate]);
+  }, [navigate, updateMessages]);
 
   const logout = () => {
     localStorage.removeItem("access_token");
@@ -89,7 +93,7 @@ const Home = () => {
       </div>
       <div className="flex flex-row justify-around h-[90vh]">
         <ListEmail emails={emails} handleEmailSelected={handleEmailSelected} />
-        <ViewEmail emailSelected={emailSelected} />
+        <ViewEmail setEmailSelected={setEmailSelected} emailSelected={emailSelected} setUpdateMessages={setUpdateMessages} updateMessages={updateMessages}/>
       </div>
       <div className="absolute bottom-20 right-10 shadow-2xl">
         <ModalEmail />

@@ -1,21 +1,45 @@
+import { toast } from "react-toastify";
+import emailService from "../../services/emailService";
 import EmailType from "../../types/EmailType";
-import { Spinner } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 
 interface ViewEmailProps {
   emailSelected?: EmailType | null;
+  updateMessages: boolean;
+  setUpdateMessages: React.Dispatch<React.SetStateAction<boolean>>;
+  setEmailSelected: React.Dispatch<React.SetStateAction<EmailType | null>>
 }
 
-const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
+const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected, updateMessages, setUpdateMessages, setEmailSelected }) => {
+  console.log(emailSelected)
   let email = localStorage.getItem("email");
   if (email) {
     email = email.replace(/"/g, "");
   }
 
-  const formatTimeStamp = (date: string) => {
-    const dividedTimeStamp = date.split("T")
-    const time = dividedTimeStamp[1].slice(0,8)
-    return dividedTimeStamp[0] + " " + time
+  const handleEmailDelete = (emailId: string) => {
+    console.log("Delete email: " + emailId)
+    emailService.deleteInboxEmail(emailId)
+    .then(res => {
+      console.log(res)
+      toast("Correo eliminado", { type: "success" });
+      setUpdateMessages(!updateMessages)
+      setEmailSelected(null)
+      
+    })
+    .catch(err => {
+      console.log(err)
+      toast("Error al eliminar", { type: "error" });
+
+    })
+
   }
+
+  const formatTimeStamp = (date: string) => {
+    const dividedTimeStamp = date.split("T");
+    const time = dividedTimeStamp[1].slice(0, 8);
+    return dividedTimeStamp[0] + " " + time;
+  };
 
   if (!emailSelected)
     return (
@@ -29,8 +53,11 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected }) => {
 
   return (
     <div className="bg-gray-50 rounded-lg w-[65%] shadow-lg flex flex-col overflow-hidden mb-6">
-      <div className="bg-white rounded-lg p-5 m-3 font-bold">
-        {emailSelected?.subject}
+      <div className="bg-white rounded-lg p-5 m-3 font-bold flex justify-between">
+        <div>{emailSelected?.subject}</div>
+        <div>
+          <Button color="danger" onClick={() => handleEmailDelete(emailSelected.id)}>Delete</Button>
+        </div>
       </div>
       <div className="bg-white rounded-lg p-5 m-3">
         <div>
