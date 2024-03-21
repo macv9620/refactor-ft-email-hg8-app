@@ -9,4 +9,4 @@
 5. Show **user information** in the Home component.
 6. Improve **user experience** in managing the form to send emails, validating email format and preventing the email writing window from closing when errors occur.
 
-The solution proposal for each of the previous points will be sent to the HG-8 via **pull request**.
+The solution proposal for each of the previous points will be sent to the HG-8 via **pull request ([https://github.com/TechFellowGroup8/ft-email-send/pull/9#issue-2198815609]())**
