@@ -7,10 +7,11 @@ interface ViewEmailProps {
   emailSelected?: EmailType | null;
   updateMessages: boolean;
   setUpdateMessages: React.Dispatch<React.SetStateAction<boolean>>;
-  setEmailSelected: React.Dispatch<React.SetStateAction<EmailType | null>>
+  setEmailSelected: React.Dispatch<React.SetStateAction<EmailType | null>>;
+  showMessagesFrom: "inbox" | "sent"
 }
 
-const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected, updateMessages, setUpdateMessages, setEmailSelected }) => {
+const ViewEmail: React.FC<ViewEmailProps> = ({ showMessagesFrom, emailSelected, updateMessages, setUpdateMessages, setEmailSelected }) => {
   console.log(emailSelected)
   let email = localStorage.getItem("email");
   if (email) {
@@ -18,20 +19,39 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ emailSelected, updateMessages, se
   }
 
   const handleEmailDelete = (emailId: string) => {
-    console.log("Delete email: " + emailId)
-    emailService.deleteInboxEmail(emailId)
-    .then(res => {
-      console.log(res)
-      toast("Correo eliminado", { type: "success" });
-      setUpdateMessages(!updateMessages)
-      setEmailSelected(null)
-      
-    })
-    .catch(err => {
-      console.log(err)
-      toast("Error al eliminar", { type: "error" });
 
-    })
+    if(showMessagesFrom === 'inbox'){
+      console.log("Delete email inbox: " + emailId)
+      emailService.deleteInboxEmail(emailId)
+      .then(res => {
+        console.log(res)
+        toast("Correo eliminado", { type: "success" });
+        setUpdateMessages(!updateMessages)
+        setEmailSelected(null)
+        
+      })
+      .catch(err => {
+        console.log(err)
+        toast("Error al eliminar", { type: "error" });
+      })
+    }
+
+    if(showMessagesFrom === 'sent'){
+      console.log("Delete email sent: " + emailId)
+      emailService.deleteSentEmail(emailId)
+      .then(res => {
+        console.log(res)
+        toast("Correo eliminado", { type: "success" });
+        setUpdateMessages(!updateMessages)
+        setEmailSelected(null)
+        
+      })
+      .catch(err => {
+        console.log(err)
+        toast("Error al eliminar", { type: "error" });
+      })
+    }
+
 
   }
 

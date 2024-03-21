@@ -10,6 +10,12 @@ const getInboxEmails = async () => {
   });
 };
 
+const getSentEmails = async () => {
+  return axios.get(`${URL_API}/emails/sent`, {
+    headers: authHeader(),
+  });
+};
+
 const sendEmail = async (email: EmailFormType) => {
   return axios.post(`${URL_API}/emails`, email, {
     headers: authHeader(),
@@ -22,10 +28,18 @@ const deleteInboxEmail = async (emailId: string) => {
   });
 };
 
+const deleteSentEmail = async (emailId: string) => {
+  return axios.patch(`${URL_API}/emails/sent/${emailId}`, null, {
+    headers: authHeader(),
+  });
+};
+
 const emailService = {
   getInboxEmails,
   sendEmail,
-  deleteInboxEmail
+  deleteInboxEmail,
+  getSentEmails,
+  deleteSentEmail
 };
 
 export default emailService;

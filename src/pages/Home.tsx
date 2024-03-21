@@ -27,6 +27,7 @@ const Home = () => {
 
   useEffect(() => {
 
+    setEmailSelected(null)
     if(showMessagesFrom === 'inbox'){
       console.log("Traer mensajes inbox")
       const fetchInboxEmails = async () => {
@@ -51,24 +52,24 @@ const Home = () => {
 
     if(showMessagesFrom === 'sent'){
       console.log("Traer mensajes sent")
-      // const fetchInboxEmails = async () => {
-      //   try {
-      //     const res = await emailService.getInboxEmails();
-      //     console.log(res);
+      const fetchSentEmails = async () => {
+        try {
+          const res = await emailService.getSentEmails();
+          console.log(res);
   
-      //     const sortedEmails = res.data.sort(
-      //       (a: { timestamp: string }, b: { timestamp: string }) =>
-      //         new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-      //     );
-      //     setEmails(sortedEmails);
-      //   } catch (error) {
-      //     console.log(error);
-      //     toast("No has iniciado sesion", { type: "error" });
-      //     navigate("/login");
-      //   }
-      // };
+          const sortedEmails = res.data.sort(
+            (a: { timestamp: string }, b: { timestamp: string }) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
+          setEmails(sortedEmails);
+        } catch (error) {
+          console.log(error);
+          toast("No has iniciado sesion", { type: "error" });
+          navigate("/login");
+        }
+      };
 
-      // fetchInboxEmails();
+      fetchSentEmails();
     }
 
 
@@ -135,6 +136,7 @@ const Home = () => {
       <div className="flex flex-row justify-around h-[90vh]">
         <ListEmail emails={emails} handleEmailSelected={handleEmailSelected} />
         <ViewEmail
+          showMessagesFrom={showMessagesFrom}
           setEmailSelected={setEmailSelected}
           emailSelected={emailSelected}
           setUpdateMessages={setUpdateMessages}
