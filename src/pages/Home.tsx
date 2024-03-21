@@ -11,12 +11,13 @@ import emailService from "../services/emailService";
 import EmailType from "../types/EmailType";
 
 const Home = () => {
-  const {dispatch} = useStateProvider();
+  const { dispatch } = useStateProvider();
   const [emails, setEmails] = useState<EmailType[]>([]);
   const [emailSelected, setEmailSelected] = useState<EmailType | null>(null);
   const [userName, setUserName] = useState<string>("");
   const [userMail, setUserMail] = useState<string>("");
-  const [updateMessages, setUpdateMessages] = useState<boolean>(false)
+  const [updateMessages, setUpdateMessages] = useState<boolean>(false);
+  const [showMessagesFrom, setShowMessagesFrom] = useState<"inbox" | "sent">("inbox");
   const navigate = useNavigate();
 
   const handleEmailSelected = (id: string) => {
@@ -25,22 +26,51 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const fetchEmails = async () => {
-      try {
-        const res = await emailService.getEmails();
-        console.log(res)
-        
-        const sortedEmails = res.data.sort(
-          (a: { timestamp: string }, b: { timestamp: string }) =>
-            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-        );
-        setEmails(sortedEmails);
-      } catch (error) {
-        console.log(error)
-        toast("No has iniciado sesion", { type: "error" });
-        navigate("/login");
-      }
-    };
+
+    if(showMessagesFrom === 'inbox'){
+      console.log("Traer mensajes inbox")
+      const fetchInboxEmails = async () => {
+        try {
+          const res = await emailService.getInboxEmails();
+          console.log(res);
+  
+          const sortedEmails = res.data.sort(
+            (a: { timestamp: string }, b: { timestamp: string }) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
+          setEmails(sortedEmails);
+        } catch (error) {
+          console.log(error);
+          toast("No has iniciado sesion", { type: "error" });
+          navigate("/login");
+        }
+      };
+
+      fetchInboxEmails();
+    }
+
+    if(showMessagesFrom === 'sent'){
+      console.log("Traer mensajes sent")
+      // const fetchInboxEmails = async () => {
+      //   try {
+      //     const res = await emailService.getInboxEmails();
+      //     console.log(res);
+  
+      //     const sortedEmails = res.data.sort(
+      //       (a: { timestamp: string }, b: { timestamp: string }) =>
+      //         new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      //     );
+      //     setEmails(sortedEmails);
+      //   } catch (error) {
+      //     console.log(error);
+      //     toast("No has iniciado sesion", { type: "error" });
+      //     navigate("/login");
+      //   }
+      // };
+
+      // fetchInboxEmails();
+    }
+
 
     const getUserInfoFromLocalStorage = () => {
       const userNameFromLocal = localStorage
@@ -58,9 +88,8 @@ const Home = () => {
       }
     };
 
-    fetchEmails();
     getUserInfoFromLocalStorage();
-  }, [navigate, updateMessages]);
+  }, [navigate, updateMessages, showMessagesFrom]);
 
   const logout = () => {
     localStorage.removeItem("access_token");
@@ -70,11 +99,23 @@ const Home = () => {
     navigate("/login");
   };
 
+  const handleButtonClick = (buttonType: "inbox" | "sent") => {
+    setShowMessagesFrom(buttonType);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-row justify-between p-3 text-center mb-2">
         <div className="text-md text-blue-500 font-bold">
           <p className="text-center pl-9">App Messages</p>
+        </div>
+        <div className="flex gap-2">
+          <Button color="danger" variant={showMessagesFrom === "inbox" ? "solid" : "faded"} onClick={() => handleButtonClick("inbox")}>
+            Inbox
+          </Button>
+          <Button color="danger" variant={showMessagesFrom === "sent" ? "solid" : "faded"} onClick={() => handleButtonClick("sent")}>
+            Sent
+          </Button>
         </div>
         <div className="text-md font-bold">
           <p className="text-center pl-9">Welcome: {userName}</p>
@@ -93,7 +134,12 @@ const Home = () => {
       </div>
       <div className="flex flex-row justify-around h-[90vh]">
         <ListEmail emails={emails} handleEmailSelected={handleEmailSelected} />
-        <ViewEmail setEmailSelected={setEmailSelected} emailSelected={emailSelected} setUpdateMessages={setUpdateMessages} updateMessages={updateMessages}/>
+        <ViewEmail
+          setEmailSelected={setEmailSelected}
+          emailSelected={emailSelected}
+          setUpdateMessages={setUpdateMessages}
+          updateMessages={updateMessages}
+        />
       </div>
       <div className="absolute bottom-20 right-10 shadow-2xl">
         <ModalEmail />

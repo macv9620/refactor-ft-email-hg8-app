@@ -4,7 +4,7 @@ import EmailFormType from "../types/EmailFormType";
 
 const URL_API = import.meta.env.VITE_BACKEND_URL;
 
-const getEmails = async () => {
+const getInboxEmails = async () => {
   return axios.get(`${URL_API}/emails`, {
     headers: authHeader(),
   });
@@ -23,7 +23,7 @@ const deleteInboxEmail = async (emailId: string) => {
 };
 
 const emailService = {
-  getEmails,
+  getInboxEmails,
   sendEmail,
   deleteInboxEmail
 };
