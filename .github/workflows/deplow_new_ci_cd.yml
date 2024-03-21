@@ -13,18 +13,18 @@ env:
   CONTAINER_NAME: hg8_front_email_app_container #OK
 
 jobs:
-  # test:
-  #   name: Run Tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  #     - name: Install dependencies
-  #       run: npm install
+      - name: Install dependencies
+        run: npm install
 
-  #     - name: Run tests
-  #       run: npm test
+      - name: Run tests
+        run: npm test
   deploy:
     # needs: test
     name: Deploy
