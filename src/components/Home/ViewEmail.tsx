@@ -5,10 +5,10 @@ import { Button, Spinner } from "@nextui-org/react";
 
 interface ViewEmailProps {
   emailSelected?: EmailType | null;
-  updateMessages: boolean;
-  setUpdateMessages: React.Dispatch<React.SetStateAction<boolean>>;
-  setEmailSelected: React.Dispatch<React.SetStateAction<EmailType | null>>;
-  showMessagesFrom: "inbox" | "sent"
+  updateMessages?: boolean;
+  setUpdateMessages?: React.Dispatch<React.SetStateAction<boolean>>;
+  setEmailSelected?: React.Dispatch<React.SetStateAction<EmailType | null>>;
+  showMessagesFrom?: "inbox" | "sent"
 }
 
 const ViewEmail: React.FC<ViewEmailProps> = ({ showMessagesFrom, emailSelected, updateMessages, setUpdateMessages, setEmailSelected }) => {
@@ -26,9 +26,12 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ showMessagesFrom, emailSelected, 
       .then(res => {
         console.log(res)
         toast("Correo eliminado", { type: "success" });
-        setUpdateMessages(!updateMessages)
-        setEmailSelected(null)
-        
+
+        if(setUpdateMessages && setEmailSelected){
+          setUpdateMessages(!updateMessages)
+          setEmailSelected(null)
+        }
+
       })
       .catch(err => {
         console.log(err)
@@ -42,8 +45,11 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ showMessagesFrom, emailSelected, 
       .then(res => {
         console.log(res)
         toast("Correo eliminado", { type: "success" });
-        setUpdateMessages(!updateMessages)
-        setEmailSelected(null)
+
+        if(setUpdateMessages && setEmailSelected){
+          setUpdateMessages(!updateMessages)
+          setEmailSelected(null)
+        }
         
       })
       .catch(err => {

@@ -14,8 +14,8 @@ import emailService from "../../services/emailService";
 import { toast } from "react-toastify";
 
 interface ModalEmailProps {
-  setUpdateMessages: React.Dispatch<React.SetStateAction<boolean>>;
-  updateMessages: boolean;
+  setUpdateMessages?: React.Dispatch<React.SetStateAction<boolean>>;
+  updateMessages?: boolean;
 }
 
  const ModalEmail: React.FC<ModalEmailProps> = ({setUpdateMessages, updateMessages}) => {
@@ -59,7 +59,9 @@ interface ModalEmailProps {
         .sendEmail(emailToSend)
         .then(() => {
           toast.success("Correo enviado con exito");
-          setUpdateMessages(!updateMessages)
+          if(setUpdateMessages){
+            setUpdateMessages(!updateMessages)
+          }
           onClose()
         })
         .catch((err) => {
