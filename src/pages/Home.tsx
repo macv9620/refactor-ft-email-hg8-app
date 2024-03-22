@@ -144,7 +144,7 @@ const Home = () => {
         />
       </div>
       <div className="absolute bottom-20 right-10 shadow-2xl">
-        <ModalEmail />
+        <ModalEmail setUpdateMessages={setUpdateMessages} updateMessages={updateMessages}/>
       </div>
     </div>
   );

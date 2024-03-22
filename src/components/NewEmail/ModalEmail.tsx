@@ -9,11 +9,16 @@ import {
 } from "@nextui-org/react";
 import FormEmail from "./FormEmail";
 import EmailFormType from "../../types/EmailFormType";
-import { useState } from "react";
+import React, { useState } from "react";
 import emailService from "../../services/emailService";
 import { toast } from "react-toastify";
 
-export default function ModalEmail() {
+interface ModalEmailProps {
+  setUpdateMessages: React.Dispatch<React.SetStateAction<boolean>>;
+  updateMessages: boolean;
+}
+
+ const ModalEmail: React.FC<ModalEmailProps> = ({setUpdateMessages, updateMessages}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [allowToSendMail, setAllowToSendMail] = useState<boolean>(false)
 
@@ -54,6 +59,7 @@ export default function ModalEmail() {
         .sendEmail(emailToSend)
         .then(() => {
           toast.success("Correo enviado con exito");
+          setUpdateMessages(!updateMessages)
           onClose()
         })
         .catch((err) => {
@@ -108,3 +114,5 @@ export default function ModalEmail() {
     </>
   );
 }
+
+export default ModalEmail
