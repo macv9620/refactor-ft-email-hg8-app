@@ -2,7 +2,7 @@ name: Deploy Front to Amazon ECS
 
 on:
   push:
-    branches: ["new-deploy-hg-8"]
+    branches: ["main"]
 
 env:
   AWS_REGION: us-east-1 #OK
