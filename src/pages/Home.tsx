@@ -112,10 +112,10 @@ const Home = () => {
         </div>
         <div className="flex gap-2">
           <Button color="danger" variant={showMessagesFrom === "inbox" ? "solid" : "faded"} onClick={() => handleButtonClick("inbox")}>
-            Inbox
+            Recibidos
           </Button>
           <Button color="danger" variant={showMessagesFrom === "sent" ? "solid" : "faded"} onClick={() => handleButtonClick("sent")}>
-            Sent
+            Enviados
           </Button>
         </div>
         <div className="text-md font-bold">

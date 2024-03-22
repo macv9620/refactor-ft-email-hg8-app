@@ -10,3 +10,15 @@
 6. Improve **user experience** in managing the form to send emails, validating email format and preventing the email writing window from closing when errors occur.
 
 The solution proposal for each of the previous points will be sent to the HG-8 via **pull request ([https://github.com/TechFellowGroup8/ft-email-send/pull/9#issue-2198815609]())**
+
+# Milestone 4: New Feature
+
+### As new features:
+
+1. We create an email Inbox and Outbox (Sent).
+2. We include user information in the home component's header.
+3. We implemented the option to delete messages in Inbox and Sent.
+
+   ![1711103366612](image/README/1711103366612.png)
+
+   New features are available in the main branch, changes required modifications on both the front and back.

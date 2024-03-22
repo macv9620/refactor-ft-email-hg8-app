@@ -82,7 +82,7 @@ const ViewEmail: React.FC<ViewEmailProps> = ({ showMessagesFrom, emailSelected, 
       <div className="bg-white rounded-lg p-5 m-3 font-bold flex justify-between">
         <div>{emailSelected?.subject}</div>
         <div>
-          <Button color="danger" onClick={() => handleEmailDelete(emailSelected.id)}>Delete</Button>
+          <Button color="danger" onClick={() => handleEmailDelete(emailSelected.id)}>Eliminar</Button>
         </div>
       </div>
       <div className="bg-white rounded-lg p-5 m-3">
