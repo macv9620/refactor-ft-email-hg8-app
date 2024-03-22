@@ -1,25 +1,27 @@
-name: cd
+# PREVIOUS CI/CD
 
-on:
-  workflow_run:
-    workflows: ['ci']
-    branches: [main]
-    types: [completed]
+# name: cd
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+# on:
+#   workflow_run:
+#     workflows: ['ci']
+#     branches: [main]
+#     types: [completed]
 
-    - name: Set up SSH connection
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-    - name: Deploy to EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no -l ubuntu ec2-23-22-195-194.compute-1.amazonaws.com <<EOF
-          ls
-        EOF
+#     - name: Set up SSH connection
+#       uses: webfactory/ssh-agent@v0.5.3
+#       with:
+#         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+#     - name: Deploy to EC2
+#       run: |
+#         ssh -o StrictHostKeyChecking=no -l ubuntu ec2-23-22-195-194.compute-1.amazonaws.com <<EOF
+#           ls
+#         EOF
